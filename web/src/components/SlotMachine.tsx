@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Howl } from 'howler';
 import { useEffect, useRef, useState } from 'react';
+import styles from '../styles/SlotMachine.module.css';
 
 const SlotMachine = () => {
     const [numbers, setNumbers] = useState<number[]>([]);
@@ -67,22 +68,25 @@ const SlotMachine = () => {
     };
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div className={styles.container}>
             <div>
                 {currentIndex !== -1 && (
                     <motion.div
                         animate={{ y: [0, -30, 0] }}
                         transition={{ repeat: Infinity, duration: 1 }}
-                        style={{ fontSize: 'calc(10vw + 10vh)', fontWeight: 'bold', color: '#444' }}
+                        className={styles.numberDisplay}
                     >
                         {numbers[currentIndex]}
                     </motion.div>
                 )}
-                <div style={{ position: 'fixed', left: '50%', bottom: '10%', transform: 'translateX(-50%)', textAlign: 'center' }}>
-                    <button onClick={spin} style={{ fontSize: '2vw', padding: '1vh 2vw' }}>Spin</button>
+                <div className={styles.buttonContainer}>
+                    <button onClick={spin} className={styles.spinButton}>Spin</button>
                 </div>
                 {showMessage && (
-                    <div style={{ position: 'fixed', left: '50%', top: '20%', transform: 'translateX(-50%)', textAlign: 'center', fontSize: '3vw', color: winningNumber && winningMessage.includes("won") ? 'green' : 'red' }}>
+                    <div
+                        className={`${styles.message} ${winningMessage.includes("won") ? styles.winMessage : styles.loseMessage
+                            }`}
+                    >
                         {winningMessage}
                     </div>
                 )}

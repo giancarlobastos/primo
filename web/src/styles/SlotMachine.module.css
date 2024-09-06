@@ -1,0 +1,44 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .numberDisplay {
+    font-size: calc(10vw + 10vh);
+    font-weight: bold;
+    color: #444;
+  }
+  
+  .buttonContainer {
+    position: fixed;
+    left: 50%;
+    bottom: 10%;
+    transform: translateX(-50%);
+    text-align: center;
+  }
+  
+  .spinButton {
+    font-size: 2vw;
+    padding: 1vh 2vw;
+    cursor: pointer;
+  }
+  
+  .message {
+    position: fixed;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-size: 3vw;
+  }
+  
+  .winMessage {
+    color: green;
+  }
+  
+  .loseMessage {
+    color: red;
+  }
+  

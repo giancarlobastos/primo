@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import styles from '../styles/History.module.css';
 
 interface Play {
   userId: string;
@@ -24,31 +25,31 @@ const History = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
-      <h1 style={{ marginBottom: '20px' }}>Game History</h1>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Game History</h1>
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <table style={{ borderCollapse: 'collapse', width: '80%', maxWidth: '600px' }}>
+        <table className={styles.table}>
           <thead>
             <tr>
-              <th style={{ border: '1px solid black', padding: '8px', backgroundColor: '#f2f2f2' }}>Number</th>
-              <th style={{ border: '1px solid black', padding: '8px', backgroundColor: '#f2f2f2' }}>Prime</th>
-              <th style={{ border: '1px solid black', padding: '8px', backgroundColor: '#f2f2f2' }}>Time</th>
+              <th>Number</th>
+              <th>Prime</th>
+              <th>Time</th>
             </tr>
           </thead>
           <tbody>
             {history.map((item, index) => (
               <tr key={index}>
-                <td style={{ border: '1px solid black', padding: '8px', textAlign: 'center' }}>{item.generatedNumber}</td>
-                <td style={{ border: '1px solid black', padding: '8px', textAlign: 'center' }}>{item.prime ? 'Yes' : 'No'}</td>
-                <td style={{ border: '1px solid black', padding: '8px', textAlign: 'center' }}>{new Date(item.timestamp).toLocaleString()}</td>
+                <td>{item.generatedNumber}</td>
+                <td>{item.prime ? 'Yes' : 'No'}</td>
+                <td>{new Date(item.timestamp).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
-      <Link href="/" style={{ marginTop: '20px', textDecoration: 'none', color: 'blue', fontWeight: 'bold' }}>Return to Game</Link>
+      <Link href="/" className={styles.link}>Return to Game</Link>
     </div>
   );
 };
