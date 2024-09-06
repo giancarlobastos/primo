@@ -48,6 +48,8 @@ Include light documentation regarding the API endpoint for your fellow FE Engine
 docker-compose up --build
 ```
 
+The application will be available at http://localhost:3000 and the backend service at http://localhost:8080.
+
 # Implementation notes:
 
 - The backend is keeping history data in a HashMap, it should be store in a database if it was a production app
