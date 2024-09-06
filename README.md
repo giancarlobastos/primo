@@ -51,4 +51,4 @@ docker-compose up --build
 # Implementation notes:
 
 - The backend is keeping history data in a HashMap, it should be store in a database if it was a production app
-- The `userId` and `clientSeed` is **hardcode** into the web page, it could be also passed as query params
+- The `userId` and `clientSeed` is **hardcoded** into the web page, it could be also passed as query params
