@@ -11,22 +11,22 @@ import com.betterbackendllc.backend.utils.RandomNumberGenerator;
 
 public class GameService {
 
-    private static final int MAX_RANDOM_NUMBER = 20;
+    private Map<String, List<SpinResult>> userHistory = new ConcurrentHashMap<>();
 
-    private static final String SERVER_SEED = "<<SUPER-SECRET-SERVER-SEED>>";
+    private RandomNumberGenerator randomNumberGenerator;
 
-    private static final RandomNumberGenerator RANDOM_NUMBER_GENERATOR = new RandomNumberGenerator(SERVER_SEED,
-            MAX_RANDOM_NUMBER);
+    private Map<Integer, Boolean> primeMap;
 
-    private static final Map<Integer, Boolean> PRIME_MAP = PrimeUtils.getPrimeNumbersMap(MAX_RANDOM_NUMBER);
+    public GameService(String serverSeed, int maxRandomNumber) {
+        randomNumberGenerator = new RandomNumberGenerator(serverSeed, maxRandomNumber);
+        primeMap = PrimeUtils.getPrimeNumbersMap(maxRandomNumber);
+    }
 
-    private static Map<String, List<SpinResult>> userHistory = new ConcurrentHashMap<>();
-
-    public static SpinResult spin(String userId, String clientSeed) throws Exception {
+    public SpinResult spin(String userId, String clientSeed) throws Exception {
         int nonce = getUserNonce(userId);
-        int randomNumber = RANDOM_NUMBER_GENERATOR.generateRandomNumber(clientSeed, nonce);
+        int randomNumber = randomNumberGenerator.generateRandomNumber(clientSeed, nonce);
 
-        boolean isPrime = isPrime(randomNumber);
+        boolean isPrime = primeMap.containsKey(randomNumber);
 
         SpinResult result = SpinResult.builder()
                 .userId(userId)
@@ -40,19 +40,15 @@ public class GameService {
         return result;
     }
 
-    private static void saveSpinResult(String userId, SpinResult result) {
+    private void saveSpinResult(String userId, SpinResult result) {
         userHistory.computeIfAbsent(userId, k -> new ArrayList<>()).add(result);
     }
 
-    private static int getUserNonce(String userId) {
+    private int getUserNonce(String userId) {
         return userHistory.getOrDefault(userId, Collections.emptyList()).size();
     }
 
-    public static List<SpinResult> getUserHistory(String userId) {
+    public List<SpinResult> getUserHistory(String userId) {
         return Collections.unmodifiableList(userHistory.getOrDefault(userId, Collections.emptyList()));
-    }
-
-    public static boolean isPrime(int n) {
-        return PRIME_MAP.containsKey(n);
     }
 }
